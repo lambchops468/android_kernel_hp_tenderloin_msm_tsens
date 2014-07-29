@@ -604,8 +604,21 @@ static struct platform_driver tsens_tm_driver = {
 	},
 };
 
+/* Haha, add the tsens device to tenderloin's list of devices */
+static struct platform_device msm_tsens_device = {
+	        .name   = "tsens-tm",
+		        .id = -1,
+};
+
+static struct platform_device *tsens_devices[] __initdata = {
+	&msm_tsens_device,
+};
+
 static int __init tsens_init(void)
 {
+	/* Oh god hacks */
+	platform_add_devices(tsens_devices, ARRAY_SIZE(tsens_devices));
+
 	return platform_driver_register(&tsens_tm_driver);
 }
 
